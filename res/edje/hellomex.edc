@@ -21,12 +21,12 @@ collections {
          part { name: "left_arrow";
             type: SWALLOW;
             description { state: "default" 0.0;
-               rel1 { relative: 10/360 147/360; to: "logo"; }
-               rel2 { relative: 10/360 147/360; to: "logo"; }
+               rel1 { relative: 0 (180-36)/360; to: "logo"; }
+               rel2 { relative: 0 (180-36)/360; to: "logo"; }
                //image.normal: "bg.png";
                align: 0.0 0.0;
-               min: 66 66;
-               max: 66 66;
+               min: 72 72;
+               max: 72 72;
                fixed: 1 1;
             }
          }
@@ -34,12 +34,12 @@ collections {
          part { name: "right_arrow";
             type: SWALLOW;
             description { state: "default" 0.0;
-               rel1 { relative: (60+66+148)/360 147/360; to: "logo"; }
-               rel2 { relative: (60+66+148)/360 147/360; to: "logo"; }
+               rel1 { relative: (360-72-13)/360 (180-36)/360; to: "logo"; }
+               rel2 { relative: (360-72-13)/360 (180-36)/360; to: "logo"; }
                //image.normal: "bg.png";
                align: 0.0 0.0;
-               min: 66 66;
-               max: 66 66;
+               min: 72 72;
+               max: 72 72;
                fixed: 1 1;
             }
          }
@@ -47,12 +47,12 @@ collections {
          part { name: "up_arrow";
             type: SWALLOW;
             description { state: "default" 0.0;
-               rel1 { relative: 140/360 10/360; to: "logo"; }
-               rel2 { relative: 140/360 10/360; to: "logo"; }
+               rel1 { relative: (180-36)/360 0; to: "logo"; }
+               rel2 { relative: (180-36)/360 0; to: "logo"; }
                //image.normal: "bg.png";
                align: 0.0 0.0;
-               min: 66 66;
-               max: 66 66;
+               min: 72 72;
+               max: 72 72;
                fixed: 1 1;
             }
          }
@@ -60,12 +60,12 @@ collections {
          part { name: "down_arrow";
             type: SWALLOW;
             description { state: "default" 0.0;
-               rel1 { relative: 140/360 270/360; to: "logo"; }
-               rel2 { relative: 140/360 0; to: "logo"; }
+               rel1 { relative: (180-36)/360 (360-72-13)/360; to: "logo"; }
+               rel2 { relative: (180-36)/360 (360-72-13)/360; to: "logo"; }
                //image.normal: "bg.png";
                align: 0.0 0.0;
-               min: 66 66;
-               max: 66 66;
+               min: 72 72;
+               max: 72 72;
                fixed: 1 1;
             }
          }
@@ -73,24 +73,24 @@ collections {
          part { name: "a_btn";
             type: SWALLOW;
             description { state: "default" 0.0;
-               rel1 { relative: 95/360 147/360; to: "logo"; }
-               rel2 { relative: 95/360 0; to: "logo"; }
+               rel1 { relative: (180-72-13)/360 (180-36)/360; to: "logo"; }
+               rel2 { relative: (180-72-13)/360 (180-36)/360;; to: "logo"; }
                //image.normal: "bg.png";
                align: 0.0 0.0;
-               min: 66 66;
-               max: 66 66;
+               min: 72 72;
+               max: 72 72;
                fixed: 1 1;
             }
          }
          part { name: "b_btn";
             type: SWALLOW;
             description { state: "default" 0.0;
-               rel1 { relative: 190/360 147/360; to: "logo"; }
-               rel2 { relative: 190/360 0; to: "logo"; }
+               rel1 { relative: (180+36-25)/360 (180-36)/360; to: "logo"; }
+               rel2 { relative: (180+36-25)/360 (180-36)/360; to: "logo"; }
                //image.normal: "bg.png";
                align: 0.0 0.0;
-               min: 66 66;
-               max: 66 66;
+               min: 72 72;
+               max: 72 72;
                fixed: 1 1;
             }
          }

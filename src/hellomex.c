@@ -18,6 +18,8 @@
 #include "view.h"
 #include "data.h"
 
+#define PUSHTAG = "PUSH"
+
 typedef struct appdata {
 	Evas_Object *win;
 	Evas_Object *naviframe;
@@ -27,10 +29,6 @@ typedef struct appdata {
 } appdata_s;
 
 static appdata_s *object;
-static void win_delete_request_cb(void *data, Evas_Object *obj, void *event_info)
-{
-	ui_app_exit();
-}
 
 static void _timeout_cb(void *data, Evas_Object *obj, void *event_info)
 {
@@ -89,125 +87,6 @@ typedef struct _item_data {
 	Elm_Object_Item *item;
 } item_data;
 
-static char *_gl_title_text_get(void *data, Evas_Object *obj, const char *part)
-{
-	char buf[1024];
-
-	snprintf(buf, 1023, "%s", "HelloMessage");
-
-	return strdup(buf);
-}
-
-static char *_gl_sub_title_text_get(void *data, Evas_Object *obj, const char *part)
-{
-	char buf[1024];
-
-	snprintf(buf, 1023, "%s", "Provider");
-
-	return strdup(buf);
-}
-
-
-static void _gl_del(void *data, Evas_Object *obj)
-{
-	// FIXME: Unrealized callback can be called after this.
-	// Accessing Item_Data can be dangerous on unrealized callback.
-	item_data *id = data;
-	if (id) free(id);
-}
-
-static Eina_Bool _naviframe_pop_cb(void *data, Elm_Object_Item *it)
-{
-	ui_app_exit();
-	return EINA_FALSE;
-}
-
-static void create_list_view(appdata_s *ad)
-{
-	Evas_Object *genlist = NULL;
-	Evas_Object *naviframe = ad->naviframe;
-	Elm_Object_Item *nf_it = NULL;
-	item_data *id = NULL;
-	int index = 0;
-
-	Elm_Genlist_Item_Class *titc = elm_genlist_item_class_new();
-	Elm_Genlist_Item_Class *pitc = elm_genlist_item_class_new();
-	Elm_Genlist_Item_Class *gic = elm_genlist_item_class_new();
-
-	/* Genlist Title Item Style */
-	titc->item_style = "title";
-	titc->func.text_get = _gl_title_text_get;
-	titc->func.del = _gl_del;
-
-	gic->item_style = "groupindex";
-	gic->func.text_get = _gl_sub_title_text_get;
-	gic->func.del = _gl_del;
-
-	pitc->item_style = "padding";
-
-	/* Create Genlist */
-	genlist = elm_genlist_add(naviframe);
-	elm_genlist_mode_set(genlist, ELM_LIST_COMPRESS);
-
-	/* Create Circle Genlist */
-	ad->circle_genlist = eext_circle_object_genlist_add(genlist, ad->circle_surface);
-
-	/* Set Scroller Policy */
-	eext_circle_object_genlist_scroller_policy_set(ad->circle_genlist, ELM_SCROLLER_POLICY_OFF, ELM_SCROLLER_POLICY_AUTO);
-
-	/* Activate Rotary Event */
-	eext_rotary_object_event_activated_set(ad->circle_genlist, EINA_TRUE);
-
-	/* Title Item Here */
-	id = calloc(sizeof(item_data), 1);
-	elm_genlist_item_append(genlist, titc, NULL, NULL, ELM_GENLIST_ITEM_GROUP, NULL, NULL);
-
-	id = calloc(sizeof(item_data), 1);
-	id->index = index++;
-	id->item = elm_genlist_item_append(genlist, gic, id, NULL, ELM_GENLIST_ITEM_GROUP, NULL, NULL);
-
-	/* Padding Item Here */
-	elm_genlist_item_append(genlist, pitc, NULL, NULL, ELM_GENLIST_ITEM_NONE, NULL, ad);
-
-	nf_it = elm_naviframe_item_push(naviframe, NULL, NULL, NULL, genlist, "empty");
-	elm_naviframe_item_pop_cb_set(nf_it, _naviframe_pop_cb, ad->win);
-
-
-}
-
-static void create_base_gui(appdata_s *ad)
-{
-	Evas_Object *conform = NULL;
-
-	/* Window */
-	ad->win = elm_win_util_standard_add(PACKAGE, PACKAGE);
-	elm_win_autodel_set(ad->win, EINA_TRUE);
-
-	evas_object_smart_callback_add(ad->win, "delete,request", win_delete_request_cb, NULL);
-
-	/* Conformant */
-	conform = elm_conformant_add(ad->win);
-	evas_object_size_hint_weight_set(conform, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
-	elm_win_resize_object_add(ad->win, conform);
-	evas_object_show(conform);
-
-	/* Naviframe */
-	ad->naviframe = elm_naviframe_add(conform);
-	elm_object_content_set(conform, ad->naviframe);
-
-	/* Eext Circle Surface*/
-	ad->circle_surface = eext_circle_surface_naviframe_add(ad->naviframe);
-
-	/* Main View */
-	create_list_view(ad);
-
-	eext_object_event_callback_add(ad->naviframe, EEXT_CALLBACK_BACK, eext_naviframe_back_cb, NULL);
-	eext_object_event_callback_add(ad->naviframe, EEXT_CALLBACK_MORE, eext_naviframe_more_cb, NULL);
-
-	/* Show window after base gui is set up */
-	evas_object_show(ad->win);
-}
-
 static void _btn_down_cb(void *user_data, Evas *e, Evas_Object *obj, void *event_info)
 {
 	evas_object_color_set(obj, 250, 250, 250, 102);
@@ -220,30 +99,30 @@ static void _btn_up_cb(void *data, Evas *e, Evas_Object *obj, void *event_info)
 }
 
 static void _left_btn_clicked_cb(){ //void *user_data, Evas_Object *obj, void *event_info){
-	dlog_print(DLOG_DEBUG, LOG_TAG, "LEFT ARROW CLICKED");
+	dlog_print(DLOG_DEBUG, "PUSH", "LEFT ARROW CLICKED");
 }
 static void _right_btn_clicked_cb(){ //(void *user_data, Evas_Object *obj, void *event_info){
 
-	dlog_print(DLOG_DEBUG, LOG_TAG, "RIGHT ARROW CLICKED");
+	dlog_print(DLOG_DEBUG, "PUSH", "RIGHT ARROW CLICKED");
 
 }
 static void _up_btn_clicked_cb(){ //(void *user_data, Evas_Object *obj, void *event_info){(void *user_data, Evas_Object *obj, void *event_info){
 
-	dlog_print(DLOG_DEBUG, LOG_TAG, "UP ARROW CLICKED");
+	dlog_print(DLOG_DEBUG, "PUSH", "UP ARROW CLICKED");
 
 }
 static void _down_btn_clicked_cb(){ //(void *user_data, Evas_Object *obj, void *event_info){{ //(void *user_data, Evas_Object *obj, void *event_info){(void *user_data, Evas_Object *obj, void *event_info){
 
-	dlog_print(DLOG_DEBUG, LOG_TAG, "DOWN ARROW CLICKED");
+	dlog_print(DLOG_DEBUG, "PUSH", "DOWN ARROW CLICKED");
 }
 static void _a_btn_clicked_cb(){ //(void *user_data, Evas_Object *obj, void *event_info){(void *user_data, Evas_Object *obj, void *event_info){
 
-	dlog_print(DLOG_DEBUG, LOG_TAG, "A BTN CLICKED");
+	dlog_print(DLOG_DEBUG, "PUSH", "A BTN CLICKED");
 
 }
 static void _b_btn_clicked_cb(){ //(void *user_data, Evas_Object *obj, void *event_info){(void *user_data, Evas_Object *obj, void *event_info){
-	boolean b = false;
-	dlog_print(DLOG_DEBUG, LOG_TAG, "B BTN CLICKED");
+	//bool b = false;
+	dlog_print(DLOG_DEBUG, "PUSH", "B BTN CLICKED");
 
 }
 
