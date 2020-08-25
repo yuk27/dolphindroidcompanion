@@ -138,7 +138,6 @@ static bool app_create(void *data)
 	Evas_Object *content = NULL;
 	char *icon_path = NULL;
 	char full_path[PATH_MAX] = { 0, };
-	char default_img_path[PATH_MAX] = { 0, };
 
 	view_create(); // create window
 	data_get_resource_path(EDJ_FILE, full_path, sizeof(full_path)); // Load the EDJ
