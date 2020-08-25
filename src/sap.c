@@ -23,6 +23,7 @@
 
 #define LISTENER_TIMEOUT 0
 #define MEX_PROFILE_ID "/sample/hellomessage"
+#define KEY_AMNT 6
 
 static struct accel_info {
 	float x;
@@ -31,10 +32,15 @@ static struct accel_info {
 	char x_array[10];
 	char y_array[10];
 	char z_array[10];
+	char c_x_array[5];
+	char c_y_array[5];
+	char c_z_array[5];
+	char key_pressed[KEY_AMNT];
 } a_info = {
 	.x = 0,
 	.y = 0,
 	.z = 0,
+	.key_pressed = {0},
 	.x_array = {0},
 	.y_array = {0},
 	.z_array = {0}
@@ -53,13 +59,33 @@ sensor_data_t sensor;
 
 int size = 32; //sizeof(msg) * 8;
 
+char* getButtons(){
+	return g_strdup_printf("%s%s%s", a_info.x_array, a_info.y_array, a_info.z_array);
+}
+
+void keyReleased(){
+	for(int i = 0; i < KEY_AMNT; i++){// Clean the key
+		a_info.key_pressed[i] = '0';
+	}
+}
+
+
+void keyPressed(int index){
+	dlog_print(DLOG_DEBUG, "PUSH", a_info.key_pressed);
+	a_info.key_pressed[index] = '1';
+}
+
 char* getAccel(){
 
 	sprintf(a_info.x_array, "%f", a_info.x);
 	sprintf(a_info.y_array, "%f", a_info.y);
 	sprintf(a_info.z_array, "%f", a_info.z);
 
-	return g_strdup_printf("%s,%s,%s", a_info.x_array, a_info.y_array, a_info.z_array);
+	strncpy(a_info.c_x_array, a_info.x_array, 5);
+	strncpy(a_info.c_y_array, a_info.y_array, 5);
+	strncpy(a_info.c_z_array, a_info.z_array, 5);
+
+	return g_strdup_printf("%s,%s,%s,%s", a_info.c_x_array, a_info.c_y_array, a_info.c_z_array, a_info.key_pressed);
 }
 
 void turn_on_screen(){
@@ -194,10 +220,8 @@ void mex_send(char *message, int length, gboolean is_secured)
 void mex_data_received_cb(sap_peer_agent_h peer_agent,unsigned int payload_length,void *buffer, void *user_data)
 {
 	priv_data.peer_agent = peer_agent;
-	//data_get_sensor_data(SENSOR_ACCELEROMETER);
 	char* msg = getAccel();
 	mex_send(msg, size, FALSE);
-	//update_ui(msg);
 	g_free(msg);
 }
 

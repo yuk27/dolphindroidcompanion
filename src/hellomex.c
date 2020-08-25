@@ -94,34 +94,37 @@ static void _btn_down_cb(void *user_data, Evas *e, Evas_Object *obj, void *event
 
 static void _btn_up_cb(void *data, Evas *e, Evas_Object *obj, void *event_info)
 {
+	keyReleased();
+	dlog_print(DLOG_DEBUG, "PUSH", "RELEASED");
 	evas_object_color_set(obj, 250, 250, 250, 255);
 
 }
 
 static void _left_btn_clicked_cb(){ //void *user_data, Evas_Object *obj, void *event_info){
+	keyPressed(0);
 	dlog_print(DLOG_DEBUG, "PUSH", "LEFT ARROW CLICKED");
 }
 static void _right_btn_clicked_cb(){ //(void *user_data, Evas_Object *obj, void *event_info){
-
+	keyPressed(1);
 	dlog_print(DLOG_DEBUG, "PUSH", "RIGHT ARROW CLICKED");
 
 }
 static void _up_btn_clicked_cb(){ //(void *user_data, Evas_Object *obj, void *event_info){(void *user_data, Evas_Object *obj, void *event_info){
-
+	keyPressed(2);
 	dlog_print(DLOG_DEBUG, "PUSH", "UP ARROW CLICKED");
 
 }
 static void _down_btn_clicked_cb(){ //(void *user_data, Evas_Object *obj, void *event_info){{ //(void *user_data, Evas_Object *obj, void *event_info){(void *user_data, Evas_Object *obj, void *event_info){
-
+	keyPressed(3);
 	dlog_print(DLOG_DEBUG, "PUSH", "DOWN ARROW CLICKED");
 }
 static void _a_btn_clicked_cb(){ //(void *user_data, Evas_Object *obj, void *event_info){(void *user_data, Evas_Object *obj, void *event_info){
-
+	keyPressed(4);
 	dlog_print(DLOG_DEBUG, "PUSH", "A BTN CLICKED");
 
 }
 static void _b_btn_clicked_cb(){ //(void *user_data, Evas_Object *obj, void *event_info){(void *user_data, Evas_Object *obj, void *event_info){
-	//bool b = false;
+	keyPressed(5);
 	dlog_print(DLOG_DEBUG, "PUSH", "B BTN CLICKED");
 
 }

@@ -27,6 +27,8 @@
 
 #define NUM_OF_ITEMS 5
 
+void keyReleased();
+void keyPressed();
 void initialize_sap();
 void turn_on_screen();
 void data_finalize();
