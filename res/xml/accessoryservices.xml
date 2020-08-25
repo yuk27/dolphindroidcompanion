@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+	<application name="org.tizen.hellomessageprovider">
+		<serviceProfile id="/sample/hellomessage" name="HelloMessageProvider"
+			role="provider" autoLaunchAppId="org.tizen.hellomessageprovider" version="1.0">
+			<supportedTransports>
+				<transport type="TRANSPORT_BT" />
+				<transport type="TRANSPORT_WIFI" />
+			</supportedTransports>
+			<serviceChannel id="910" dataRate="high" priority="high" reliability="disabled">
+			</serviceChannel>
+			<supportedFeatures>
+				<feature type="message" />
+			</supportedFeatures>
+		</serviceProfile>
+	</application>
+</resources>
