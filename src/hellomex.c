@@ -15,6 +15,8 @@
  */
 
 #include "hellomex.h"
+#include "view.h"
+#include "data.h"
 
 typedef struct appdata {
 	Evas_Object *win;
@@ -206,14 +208,101 @@ static void create_base_gui(appdata_s *ad)
 	evas_object_show(ad->win);
 }
 
+static void _btn_down_cb(void *user_data, Evas *e, Evas_Object *obj, void *event_info)
+{
+	evas_object_color_set(obj, 250, 250, 250, 102);
+}
+
+static void _btn_up_cb(void *data, Evas *e, Evas_Object *obj, void *event_info)
+{
+	evas_object_color_set(obj, 250, 250, 250, 255);
+
+}
+
+static void _left_btn_clicked_cb(){ //void *user_data, Evas_Object *obj, void *event_info){
+	dlog_print(DLOG_DEBUG, LOG_TAG, "LEFT ARROW CLICKED");
+}
+static void _right_btn_clicked_cb(){ //(void *user_data, Evas_Object *obj, void *event_info){
+
+	dlog_print(DLOG_DEBUG, LOG_TAG, "RIGHT ARROW CLICKED");
+
+}
+static void _up_btn_clicked_cb(){ //(void *user_data, Evas_Object *obj, void *event_info){(void *user_data, Evas_Object *obj, void *event_info){
+
+	dlog_print(DLOG_DEBUG, LOG_TAG, "UP ARROW CLICKED");
+
+}
+static void _down_btn_clicked_cb(){ //(void *user_data, Evas_Object *obj, void *event_info){{ //(void *user_data, Evas_Object *obj, void *event_info){(void *user_data, Evas_Object *obj, void *event_info){
+
+	dlog_print(DLOG_DEBUG, LOG_TAG, "DOWN ARROW CLICKED");
+}
+static void _a_btn_clicked_cb(){ //(void *user_data, Evas_Object *obj, void *event_info){(void *user_data, Evas_Object *obj, void *event_info){
+
+	dlog_print(DLOG_DEBUG, LOG_TAG, "A BTN CLICKED");
+
+}
+static void _b_btn_clicked_cb(){ //(void *user_data, Evas_Object *obj, void *event_info){(void *user_data, Evas_Object *obj, void *event_info){
+	boolean b = false;
+	dlog_print(DLOG_DEBUG, LOG_TAG, "B BTN CLICKED");
+
+}
+
+static void _content_back_cb(void *user_data, Evas_Object *obj, void *event_info)
+{
+	dlog_print(DLOG_DEBUG, LOG_TAG, "exit application");
+}
+
 static bool app_create(void *data)
 {
-	/* Hook to take necessary actions before main event loop starts
-	   Initialize UI resources and application's data
-	   If this function returns true, the main loop of application starts
-	   If this function returns false, the application is terminated */
+
+	Evas_Object *conform = NULL;
+	Evas_Object *content = NULL;
+	char *icon_path = NULL;
+	char full_path[PATH_MAX] = { 0, };
+	char default_img_path[PATH_MAX] = { 0, };
+
+	view_create(); // create window
+	data_get_resource_path(EDJ_FILE, full_path, sizeof(full_path)); // Load the EDJ
+
+	conform = view_get_conformant();
+	content = view_create_layout_for_conformant(conform, full_path, GRP_MAIN, _content_back_cb, NULL);
+	if (content == NULL) {
+		dlog_print(DLOG_ERROR, LOG_TAG, "failed to create a content.");
+		return NULL;
+	}
+
+	icon_path = data_get_image("left_arrow");
+	view_set_button(content, "left_arrow", "focus", icon_path, NULL, _btn_down_cb, _btn_up_cb, _left_btn_clicked_cb, content);
+	view_set_color(content, "left_arrow", 250, 250, 250, 255);
+	free(icon_path);
+
+	icon_path = data_get_image("right_arrow");
+	view_set_button(content, "right_arrow", "focus", icon_path, NULL, _btn_down_cb, _btn_up_cb, _right_btn_clicked_cb, content);
+	view_set_color(content, "right_arrow", 250, 250, 250, 255);
+	free(icon_path);
+
+	icon_path = data_get_image("up_arrow");
+	view_set_button(content, "up_arrow", "focus", icon_path, NULL, _btn_down_cb, _btn_up_cb, _up_btn_clicked_cb, content);
+	view_set_color(content, "up_arrow", 250, 250, 250, 255);
+	free(icon_path);
+
+	icon_path = data_get_image("down_arrow");
+	view_set_button(content, "down_arrow", "focus", icon_path, NULL, _btn_down_cb, _btn_up_cb, _down_btn_clicked_cb, content);
+	view_set_color(content, "down_arrow", 250, 250, 250, 255);
+	free(icon_path);
+
+	icon_path = data_get_image("a_btn");
+	view_set_button(content, "a_btn", "focus", icon_path, NULL, _btn_down_cb, _btn_up_cb, _a_btn_clicked_cb, content);
+	view_set_color(content, "a_btn", 250, 250, 250, 255);
+	free(icon_path);
+
+	icon_path = data_get_image("b_btn");
+	view_set_button(content, "b_btn", "focus", icon_path, NULL, _btn_down_cb, _btn_up_cb, _b_btn_clicked_cb, content);
+	view_set_color(content, "b_btn", 250, 250, 250, 255);
+	free(icon_path);
+
 	object = data;
-	create_base_gui(object);
+	//create_base_gui(object); //TODO: ADD GUI
 	initialize_sap();
 	turn_on_screen();
 	return TRUE;
@@ -237,6 +326,7 @@ static void app_resume(void *data)
 static void app_terminate(void *data)
 {
 	/* Release all resources. */
+	view_destroy();
 	data_finalize();
 }
 
