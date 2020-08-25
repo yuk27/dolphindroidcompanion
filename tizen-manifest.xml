@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<manifest xmlns="http://tizen.org/ns/packages" api-version="2.3.2" package="org.tizen.dolphindroidcompanion" version="1.0.0">
+    <author email="jsolanof.cr@gmail.com">Juan Carlos Solano</author>
+    <description>Companion for Android Dolphindroid app, used for emulating the motion of a wiimote with the Watch accelerometer.</description>
+    <profile name="wearable"/>
+    <ui-application appid="org.tizen.dolphindroidcompanion" exec="dolphindroidcompanion" multiple="false" nodisplay="false" taskmanage="true" type="capp">
+        <label>DolphindroidCompanion</label>
+        <icon>icon.png</icon>
+        <metadata key="accessory-services-location" value="/res/xml/accessoryservices.xml"/>
+        <metadata key="launch-on-attach" value="false"/>
+    </ui-application>
+    <privileges>
+        <privilege>http://developer.samsung.com/tizen/privilege/accessoryprotocol</privilege>
+        <privilege>http://tizen.org/privilege/display</privilege>
+    </privileges>
+    <feature name="http://tizen.org/feature/screen.size.normal">true</feature>
+    <feature name="http://tizen.org/feature/screen.shape.circle">true</feature>
+</manifest>
