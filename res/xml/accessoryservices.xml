@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
-	<application name="org.tizen.hellomessageprovider">
-		<serviceProfile id="/sample/hellomessage" name="HelloMessageProvider"
-			role="provider" autoLaunchAppId="org.tizen.hellomessageprovider" version="1.0">
+	<application name="org.tizen.dolphindroidcompanion">
+		<serviceProfile id="/sample/hellomessage" name="DolphindroidCompanion"
+			role="provider" autoLaunchAppId="org.tizen.dolphindroidcompanion" version="1.0">
 			<supportedTransports>
 				<transport type="TRANSPORT_BT" />
 				<transport type="TRANSPORT_WIFI" />
