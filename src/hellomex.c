@@ -94,7 +94,7 @@ static void _btn_down_cb(void *user_data, Evas *e, Evas_Object *obj, void *event
 
 static void _btn_up_cb(void *data, Evas *e, Evas_Object *obj, void *event_info)
 {
-	keyReleased();
+	//keyReleased();
 	dlog_print(DLOG_DEBUG, "PUSH", "RELEASED");
 	evas_object_color_set(obj, 250, 250, 250, 255);
 
@@ -185,6 +185,7 @@ static bool app_create(void *data)
 	object = data;
 	//create_base_gui(object); //TODO: ADD GUI
 	initialize_sap();
+	keyReleased();
 	turn_on_screen();
 	return TRUE;
 }
